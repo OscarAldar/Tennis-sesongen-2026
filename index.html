@@ -573,11 +573,11 @@
       </div>
     </div>
 
-    <div class="email-panel" id="email-panel">
-      <div class="panel-label" style="margin-bottom:0.6rem;">Send resultater på e-post</div>
-      <div class="email-row">
-        <input class="email-input" type="email" id="email-input" placeholder="din@epost.no" />
-        <button class="btn-email" onclick="sendEmail()">✉ Send</button>
+    <div class="panel" style="margin-bottom:0.75rem;">
+      <div class="panel-label">Send resultater på e-post</div>
+      <div style="display:flex; gap:8px; align-items:center;">
+        <input class="email-input" type="email" id="email-input" placeholder="din@epost.no" style="flex:1; padding:9px 12px; font-family:'Mulish',sans-serif; font-size:13px; background:var(--sand); border:1.5px solid var(--sand-deeper); border-radius:var(--r); color:var(--ink); outline:none;" />
+        <button onclick="sendEmail()" style="padding:9px 16px; white-space:nowrap; background:var(--plank); color:var(--white); border:none; border-radius:var(--r); font-family:'Mulish',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.06em; cursor:pointer; flex-shrink:0;">✉ Send</button>
       </div>
     </div>
     <button class="btn-sec" onclick="resetAll()">↺ Tilbakestill alt</button>
