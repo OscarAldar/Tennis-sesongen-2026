@@ -92,50 +92,50 @@
   }
 
   .crest-icon {
-    width: 58px; height: 58px;
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: var(--fjord-pale);
     border: 2.5px solid var(--fjord);
-    border-radius: 50% 50% 48% 48%;
-    position: relative;
-    background: linear-gradient(160deg, var(--fjord-pale) 0%, var(--white) 100%);
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 4px 16px rgba(42,92,122,0.15);
     margin-bottom: 0.5rem;
+    position: relative;
+    overflow: hidden;
   }
+  /* Tennis ball seam lines */
   .crest-icon::before {
     content: '';
     position: absolute;
-    top: 50%; left: 12%; right: 12%;
-    height: 2px;
-    background: var(--plank);
-    transform: translateY(-50%) rotate(-12deg);
-    border-radius: 2px;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border-top: 2.5px solid var(--plank);
+    border-bottom: 2.5px solid var(--plank);
+    border-left: 2.5px solid transparent;
+    border-right: 2.5px solid transparent;
+    transform: rotate(35deg);
+    box-sizing: border-box;
   }
   .crest-icon::after {
     content: '';
     position: absolute;
-    top: 12%; bottom: 12%; left: 50%;
-    width: 2px;
-    background: var(--fjord);
-    transform: translateX(-50%) rotate(-12deg);
-    border-radius: 2px;
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    border-top: 2.5px solid var(--plank);
+    border-bottom: 2.5px solid var(--plank);
+    border-left: 2.5px solid transparent;
+    border-right: 2.5px solid transparent;
+    transform: rotate(-35deg);
+    box-sizing: border-box;
   }
 
   .club-name {
     font-family: 'Playfair Display', serif;
-    font-size: 1.9rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--fjord-deep);
     letter-spacing: -0.01em;
     line-height: 1;
     margin-bottom: 2px;
-  }
-
-  .club-sub {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--plank);
-    letter-spacing: 0.02em;
   }
 
   .subtitle {
@@ -493,13 +493,12 @@
   <header>
     <div class="club-crest">
       <div class="crest-icon"></div>
-      <div class="club-name">Larkollen</div>
-      <div class="club-sub">Tennisklubb</div>
+      <div class="club-name">Tennis Scoreboard</div>
     </div>
     <p class="subtitle">Doublekamper · Rotasjon</p>
     <nav style="margin-top:1.25rem; display:flex; justify-content:center; gap:8px;">
-      <a href="index.html" style="padding:8px 18px; background:var(--fjord-deep); color:var(--white); border-radius:var(--r); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; box-shadow:0 2px 8px rgba(26,61,82,0.18);">&#127EB3; Scoreboard</a>
-      <a href="turnering.html" style="padding:8px 18px; background:var(--white); color:var(--fjord-deep); border:1.5px solid var(--sand-deeper); border-radius:var(--r); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none;">&#127942; Turnering</a>
+      <a href="index.html" style="padding:8px 18px; background:var(--fjord-deep); color:var(--white); border-radius:var(--r); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; box-shadow:0 2px 8px rgba(26,61,82,0.18);">🎾 Scoreboard</a>
+      <a href="turnering.html" style="padding:8px 18px; background:var(--white); color:var(--fjord-deep); border:1.5px solid var(--sand-deeper); border-radius:var(--r); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none;">🏆 Turnering</a>
     </nav>
   </header>
   <!-- Setup -->
