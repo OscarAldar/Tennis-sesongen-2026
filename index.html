@@ -486,7 +486,7 @@
     </div>
     <div class="panel-label">Spillernavn</div>
     <div id="player-inputs"></div>
-    <button class="btn-primary" onclick="startSession()">Start sesjon</button>
+    <button class="btn-primary" onclick="startSession()">START</button>
   </div>
 
   <!-- Scoreboard -->
@@ -567,97 +567,21 @@
   const BLOCK_HEIGHTS = [100, 70, 50];
   const BLOCK_LABELS = ['1','2','3'];
 
-  // Generate round-robin rotations dynamically for any number of players
-  // Always tries to give new partners, sitting-out rotates for odd numbers
-  function generateRotations(n) {
-    if (n === 2) {
-      // Just one match, same two players always
-      return [[[0], [1]]];
-    }
-
-    const rounds = [];
-    const isOdd = n % 2 !== 0;
-    const total = isOdd ? n + 1 : n; // add ghost player for odd
-
-    // Round-robin algorithm (circle method)
-    const players = Array.from({length: total}, (_, i) => i);
-    const numRounds = total - 1;
-
-    for (let r = 0; r < numRounds; r++) {
-      const pairs = [];
-      const playing = [];
-      for (let i = 0; i < total / 2; i++) {
-        const p1 = players[i];
-        const p2 = players[total - 1 - i];
-        // skip ghost player (index >= n)
-        if (p1 < n && p2 < n) {
-          playing.push([p1, p2]);
-        }
-      }
-
-      // Form doubles teams from playing pairs if we have 4+ players
-      if (n >= 4) {
-        // Pair up the playing players into two teams of 2
-        const playingFlat = [];
-        for (let i = 0; i < total / 2; i++) {
-          const p1 = players[i];
-          const p2 = players[total - 1 - i];
-          if (p1 < n && p2 < n) { playingFlat.push(p1, p2); }
-        }
-        // Take first 4 for the match
-        if (playingFlat.length >= 4) {
-          rounds.push([[playingFlat[0], playingFlat[1]], [playingFlat[2], playingFlat[3]]]);
-        }
-      } else if (n === 3) {
-        // 3 players: one sits out each round
-        // playing has 1 pair, sitter is the remaining
-        if (playing.length === 1) {
-          // not enough for doubles — just track who plays
-          rounds.push([[playing[0][0]], [playing[0][1]]]);
-        }
-      }
-
-      // Rotate: fix position 0, rotate rest
-      const last = players.pop();
-      players.splice(1, 0, last);
-    }
-
-    return rounds.length ? rounds : [[[0,1],[2,3]]];
-  }
-
-  // Better approach: pre-built rotation tables extended to support 2-8
   function getRotations(n) {
     if (n === 2) return [[[0],[1]]];
-    if (n === 3) return [[[0,1],[2,null]],[[1,2],[0,null]],[[0,2],[1,null]]];
+    if (n === 3) return [[[0,1],[2]],[[1,2],[0]],[[0,2],[1]]];
     if (n === 4) return [[[0,1],[2,3]],[[0,2],[1,3]],[[0,3],[1,2]]];
     if (n === 5) return [
-      [[0,1],[2,3]], // 4 sits
-      [[0,2],[3,4]], // 1 sits
-      [[1,3],[0,4]], // 2 sits
-      [[2,4],[0,3]], // 1 sits
-      [[1,4],[2,3]], // 0 sits
-      [[0,4],[1,2]], // 3 sits
-      [[1,2],[3,4]], // 0 sits
-      [[0,3],[2,4]], // 1 sits
-      [[0,2],[1,4]], // 3 sits
-      [[1,3],[0,2]], // 4 sits
+      [[0,1],[2,3]],[[0,2],[3,4]],[[1,3],[0,4]],
+      [[2,4],[0,3]],[[1,4],[2,3]],[[0,4],[1,2]],
+      [[1,2],[3,4]],[[0,3],[2,4]],[[0,2],[1,4]],[[1,3],[0,2]]
     ];
     if (n === 6) return [[[0,1],[2,3]],[[0,2],[4,5]],[[0,3],[1,4]],[[0,4],[2,5]],[[0,5],[1,3]],[[1,2],[3,5]],[[1,5],[2,4]],[[1,3],[4,5]],[[2,3],[0,5]],[[2,4],[0,3]]];
     if (n === 7) return [
-      [[0,1],[2,3]], // 4,5,6 sit
-      [[1,2],[4,5]], // 0,3,6 sit
-      [[2,3],[5,6]], // 0,1,4 sit
-      [[0,3],[4,6]], // 1,2,5 sit
-      [[1,4],[3,5]], // 0,2,6 sit
-      [[2,5],[0,6]], // 1,3,4 sit
-      [[3,6],[0,4]], // 1,2,5 sit
-      [[0,5],[1,6]], // 2,3,4 sit
-      [[1,3],[2,6]], // 0,4,5 sit
-      [[0,2],[4,6]], // 1,3,5 sit
-      [[1,5],[3,6]], // 0,2,4 sit
-      [[2,4],[0,6]], // 1,3,5 sit
-      [[0,3],[2,5]], // 1,4,6 sit
-      [[1,6],[3,4]], // 0,2,5 sit
+      [[0,1],[2,3]],[[1,2],[4,5]],[[2,3],[5,6]],[[0,3],[4,6]],
+      [[1,4],[3,5]],[[2,5],[0,6]],[[3,6],[0,4]],[[0,5],[1,6]],
+      [[1,3],[2,6]],[[0,2],[4,6]],[[1,5],[3,6]],[[2,4],[0,6]],
+      [[0,3],[2,5]],[[1,6],[3,4]]
     ];
     if (n === 8) return [[[0,1],[2,3]],[[4,5],[6,7]],[[0,2],[4,6]],[[1,3],[5,7]],[[0,3],[5,6]],[[1,2],[4,7]],[[0,4],[3,7]],[[1,5],[2,6]],[[0,5],[3,6]],[[1,4],[2,7]],[[0,6],[1,7]],[[2,4],[3,5]]];
     return [[[0,1],[2,3]]];
@@ -687,20 +611,20 @@
 
   function getPairing(rotIdx) {
     const rots = getRotations(playerCount);
-    return rots[rotIdx % rots.length];
+    return rots[((rotIdx % rots.length) + rots.length) % rots.length];
   }
 
   function teamLabel(pair) {
-    if (playerCount === 2) return pName(pair[0]) + ' vs ' + pName(pair[1]);
-    const p = pair.filter(x => x !== null);
+    if (!pair) return '';
+    const p = pair.filter(x => x !== null && x !== undefined);
+    if (p.length === 0) return '—';
     if (p.length === 1) return pName(p[0]);
     return pName(p[0]) + ' & ' + pName(p[1]);
   }
 
   function sittingOut() {
-    const rots = getRotations(playerCount);
-    const pairing = rots[state.rotIdx % rots.length];
-    const playing = pairing.flat().filter(x => x !== null);
+    const pairing = getPairing(state.rotIdx);
+    const playing = pairing.flat().filter(x => x !== null && x !== undefined);
     return state.players.filter((_, i) => !playing.includes(i));
   }
 
@@ -726,14 +650,14 @@
 
   function recordWin(team) {
     const pairing = getPairing(state.rotIdx);
-    const winPair = pairing[team];
-    const losePair = pairing[1 - team];
+    const winPair = pairing[team].filter(x => x !== null);
+    const losePair = pairing[1 - team].filter(x => x !== null);
 
     state.totalScores[team]++;
     winPair.forEach(pi => { state.pts[pName(pi)]++; state.wins[pName(pi)]++; });
     losePair.forEach(pi => { state.losses[pName(pi)]++; });
 
-    state.history.push({ match: state.matchNum, winnerLabel: teamLabel(winPair) });
+    state.history.push({ match: state.matchNum, winnerLabel: teamLabel(pairing[team]) });
     state.matchNum++;
     state.rotIdx++;
     render();
@@ -743,11 +667,10 @@
     if (!state.history.length) return;
     const last = state.history[state.history.length - 1];
     const pairing = getPairing(state.rotIdx - 1);
-    const winPair = pairing[team];
-    const losePair = pairing[1 - team];
+    const winPair = pairing[team].filter(x => x !== null);
+    const losePair = pairing[1 - team].filter(x => x !== null);
 
-    const lastWinnerLabel = teamLabel(winPair);
-    if (last.winnerLabel !== lastWinnerLabel) return;
+    if (last.winnerLabel !== teamLabel(pairing[team])) return;
 
     state.history.pop();
     state.matchNum--;
@@ -760,45 +683,28 @@
 
   function render() {
     const pairing = getPairing(state.rotIdx);
-    const rots = ROTATIONS[playerCount];
+    const rots = getRotations(playerCount);
     const roundNum = Math.floor(state.rotIdx / rots.length) + 1;
     const posInRound = (state.rotIdx % rots.length) + 1;
 
     document.getElementById('match-label').textContent = 'Kamp ' + state.matchNum;
-    const rots = getRotations(playerCount);
-    const roundNum = Math.floor(state.rotIdx / rots.length) + 1;
-    const posInRound = (state.rotIdx % rots.length) + 1;
-    document.getElementById('rot-badge').textContent = playerCount === 2 ? 'Kamp ' + state.matchNum : 'Runde ' + roundNum + ' · ' + posInRound + '/' + rots.length;
+    document.getElementById('rot-badge').textContent = playerCount === 2 ? '' : 'Runde ' + roundNum + ' · ' + posInRound + '/' + rots.length;
 
     document.getElementById('score1').textContent = state.totalScores[0];
     document.getElementById('score2').textContent = state.totalScores[1];
 
     const renderChips = (id, pair) => {
       document.getElementById(id).innerHTML =
-        pair.filter(pi => pi !== null).map(pi => `<div class="chip">${pName(pi)}</div>`).join('');
+        pair.filter(pi => pi !== null && pi !== undefined).map(pi => `<div class="chip">${pName(pi)}</div>`).join('');
     };
     renderChips('chips1', pairing[0]);
     renderChips('chips2', pairing[1]);
-
-    // Show sitting out for odd numbers
-    const sitters = sittingOut();
-    let sitterEl = document.getElementById('sitter-row');
-    if (sitters.length > 0) {
-      if (!sitterEl) {
-        sitterEl = document.createElement('div');
-        sitterEl.id = 'sitter-row';
-        sitterEl.style.cssText = 'text-align:center; font-size:12px; color:var(--ink-mute); margin-bottom:0.75rem; font-weight:600;';
-        document.getElementById('scoreboard').insertBefore(sitterEl, document.querySelector('.next-up'));
-      }
-      sitterEl.textContent = 'Sitter over: ' + sitters.join(', ');
-    } else if (sitterEl) {
-      sitterEl.remove();
-    }
 
     const [s0, s1] = state.totalScores;
     document.getElementById('tcol1').classList.toggle('leader', s0 > s1);
     document.getElementById('tcol2').classList.toggle('leader', s1 > s0);
 
+    // Undo buttons
     const u1 = document.getElementById('undo1');
     const u2 = document.getElementById('undo2');
     if (state.history.length) {
@@ -811,10 +717,25 @@
       u2.disabled = true;
     }
 
+    // Sitting out
+    const sitters = sittingOut();
+    let sitterEl = document.getElementById('sitter-row');
+    if (sitters.length > 0) {
+      if (!sitterEl) {
+        sitterEl = document.createElement('div');
+        sitterEl.id = 'sitter-row';
+        sitterEl.style.cssText = 'text-align:center; font-size:12px; color:var(--ink-mute); margin-bottom:0.75rem; font-weight:600; letter-spacing:0.06em;';
+        document.querySelector('.next-up').insertAdjacentElement('afterend', sitterEl);
+      }
+      sitterEl.textContent = 'Sitter over: ' + sitters.join(', ');
+    } else if (sitterEl) {
+      sitterEl.remove();
+    }
+
+    // Next up
     if (playerCount > 2) {
       const np = getPairing(state.rotIdx + 1);
-      document.getElementById('next-up-text').textContent =
-        teamLabel(np[0]) + ' vs ' + teamLabel(np[1]);
+      document.getElementById('next-up-text').textContent = teamLabel(np[0]) + ' vs ' + teamLabel(np[1]);
       document.querySelector('.next-up').style.display = 'flex';
     } else {
       document.querySelector('.next-up').style.display = 'none';
@@ -822,9 +743,9 @@
 
     const sorted = [...state.players].sort((a, b) => state.pts[b] - state.pts[a]);
 
+    // Podium
     const podiumOrder = [1, 0, 2];
     const podiumRankClass = ['rank-2', 'rank-1', 'rank-3'];
-
     document.getElementById('podium-stage').innerHTML = podiumOrder.map((rankIdx, colIdx) => {
       const p = sorted[rankIdx];
       const pts = p ? state.pts[p] : 0;
@@ -833,7 +754,6 @@
       const blockH = BLOCK_HEIGHTS[rankIdx];
       const medal = MEDALS[rankIdx];
       const blockLabel = BLOCK_LABELS[rankIdx];
-
       if (isEmpty) {
         return `<div class="podium-slot empty">
           <div class="podium-avatar">—</div>
@@ -841,7 +761,6 @@
           <div class="podium-block" style="height:${blockH}px;">${blockLabel}</div>
         </div>`;
       }
-
       return `<div class="podium-slot ${rankClass}">
         <div class="podium-avatar">${medal}</div>
         <div class="podium-name">${p}</div>
@@ -850,6 +769,7 @@
       </div>`;
     }).join('');
 
+    // Leaderboard
     document.getElementById('lb-body').innerHTML =
       `<div class="lb-row header"><span></span><span>Spiller</span><span style="text-align:center">V</span><span style="text-align:center">T</span><span style="text-align:right">Pkt</span></div>` +
       sorted.map((p, i) =>
@@ -862,6 +782,7 @@
         </div>`
       ).join('');
 
+    // History
     const list = document.getElementById('match-list');
     if (!state.history.length) {
       list.innerHTML = '<div class="empty-state">Ingen kamper spilt ennå</div>';
@@ -879,29 +800,19 @@
   function sendEmail() {
     const email = document.getElementById('email-input').value.trim();
     if (!email) { alert('Skriv inn en e-postadresse først!'); return; }
-
     const sorted = [...state.players].sort((a,b) => state.pts[b] - state.pts[a]);
-
-    let body = 'LARKOLLEN TENNISKLUBB\n';
+    let body = 'TENNIS SCOREBOARD\n';
     body += '================================\n';
     body += 'Sesjon: ' + new Date().toLocaleDateString('no-NO', {day:'2-digit',month:'long',year:'numeric'}) + '\n';
     body += state.matchNum - 1 + ' kamper spilt\n\n';
-
-    body += 'STILLINGEN\n';
-    body += '--------------------------------\n';
+    body += 'STILLINGEN\n--------------------------------\n';
     sorted.forEach((p, i) => {
       body += (i+1) + '. ' + p + ' — ' + state.pts[p] + ' pkt (' + state.wins[p] + 'V / ' + state.losses[p] + 'T)\n';
     });
-
-    body += '\nKAMPHISTORIKK\n';
-    body += '--------------------------------\n';
-    state.history.forEach(h => {
-      body += 'Kamp ' + h.match + ': ' + h.winnerLabel + ' vant\n';
-    });
-
-    const subject = encodeURIComponent('Larkollen Tennis — Sesjonresultater');
-    const bodyEncoded = encodeURIComponent(body);
-    window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + bodyEncoded;
+    body += '\nKAMPHISTORIKK\n--------------------------------\n';
+    state.history.forEach(h => { body += 'Kamp ' + h.match + ': ' + h.winnerLabel + ' vant\n'; });
+    const subject = encodeURIComponent('Tennis Scoreboard — Sesjonresultater');
+    window.location.href = 'mailto:' + email + '?subject=' + subject + '&body=' + encodeURIComponent(body);
   }
 
   function resetAll() {
@@ -913,8 +824,6 @@
     renderInputs();
   }
 
-  // Init
-  document.getElementById('player-count-input').value = playerCount;
   renderInputs();
 </script>
 </body>
