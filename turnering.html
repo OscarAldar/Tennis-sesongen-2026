@@ -328,8 +328,29 @@
   }
 
   @media (max-width: 600px) {
+    body { padding: 1rem 0.5rem 4rem; }
     .setup-grid { grid-template-columns: 1fr; }
-    .round-col { min-width: 130px; }
+    .round-col { min-width: 120px; }
+    .club-name { font-size: 1.3rem; }
+    .subtitle { font-size: 9px; }
+    nav a { padding: 7px 12px !important; font-size: 11px !important; }
+    .panel { padding: 1rem 0.75rem; }
+    .seg-btn { padding: 7px 10px; font-size: 12px; }
+    .btn-primary { font-size: 15px; padding: 12px; }
+    .actions-bar { flex-direction: column; align-items: flex-start; }
+    .tournament-title { font-size: 1rem; }
+    .slot-entry { font-size: 11px; padding: 6px 8px; }
+    .champion-slot { min-width: 110px; padding: 0.75rem; }
+    .champion-name { font-size: 13px; }
+    .standing-chip { font-size: 11px; padding: 5px 9px; }
+    .standings-grid { gap: 6px; }
+    .p-input-wrap input { font-size: 12px; padding: 6px 8px; }
+  }
+
+  @media (max-width: 400px) {
+    .round-col { min-width: 100px; }
+    .slot-entry { font-size: 10px; padding: 5px 6px; }
+    .round-header { font-size: 9px; }
   }
 
   /* ── EMAIL SAVE ── */

@@ -445,10 +445,55 @@
   }
   .panel, .podium-panel, .match-panel, .next-up { animation: fadeUp 0.35s ease both; }
 
-  @media (max-width: 400px) {
-    .club-name { font-size: 1.6rem; }
-    .big-score { font-size: 52px; }
-    .chip { font-size: 12px; }
+  @media (max-width: 480px) {
+    body { padding: 1rem 0.75rem 4rem; }
+    .club-name { font-size: 1.3rem; }
+    .subtitle { font-size: 9px; }
+    h1 { font-size: 1.3rem; }
+
+    /* Nav buttons */
+    nav a { padding: 7px 12px !important; font-size: 11px !important; }
+
+    /* Panels */
+    .panel, .match-panel, .podium-panel { padding: 1rem; }
+
+    /* Score area */
+    .big-score { font-size: 48px; }
+    .chip { font-size: 12px; padding: 5px 8px; }
+    .teams-grid { gap: 6px; }
+
+    /* Win/undo buttons */
+    .win-btn { font-size: 11px; padding: 8px 0; }
+    .undo-btn { padding: 8px 10px; font-size: 14px; }
+
+    /* Podium */
+    .podium-stage { height: 160px; }
+    .podium-slot { max-width: 110px; }
+    .podium-name { font-size: 10px; }
+    .podium-pts { font-size: 13px; }
+    .podium-avatar { width: 34px; height: 34px; font-size: 16px; }
+    .podium-slot.rank-1 .podium-block { height: 76px; }
+    .podium-slot.rank-2 .podium-block { height: 54px; }
+    .podium-slot.rank-3 .podium-block { height: 38px; }
+
+    /* Leaderboard */
+    .lb-row { font-size: 12px; gap: 6px; }
+    .lb-pts { font-size: 15px; }
+
+    /* History */
+    .match-row { font-size: 11px; gap: 6px; padding: 7px 8px; }
+
+    /* Email panel */
+    .email-input { font-size: 12px; }
+    .btn-email { font-size: 11px; padding: 8px 12px; }
+
+    /* Next up */
+    .next-up { padding: 8px 12px; }
+    .next-up-label { font-size: 9px; }
+    .next-up-teams { font-size: 11px; }
+
+    /* Player count input */
+    #player-count-input { width: 60px; font-size: 16px; }
   }
 </style>
 </head>
