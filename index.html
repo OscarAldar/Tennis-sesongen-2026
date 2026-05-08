@@ -91,42 +91,7 @@
     margin-bottom: 1rem;
   }
 
-  .crest-icon {
-    width: 64px; height: 64px;
-    border-radius: 50%;
-    background: var(--fjord-pale);
-    border: 2.5px solid var(--fjord);
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(42,92,122,0.15);
-    margin-bottom: 0.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  /* Tennis ball seam lines */
-  .crest-icon::before {
-    content: '';
-    position: absolute;
-    width: 100%; height: 100%;
-    border-radius: 50%;
-    border-top: 2.5px solid var(--plank);
-    border-bottom: 2.5px solid var(--plank);
-    border-left: 2.5px solid transparent;
-    border-right: 2.5px solid transparent;
-    transform: rotate(35deg);
-    box-sizing: border-box;
-  }
-  .crest-icon::after {
-    content: '';
-    position: absolute;
-    width: 100%; height: 100%;
-    border-radius: 50%;
-    border-top: 2.5px solid var(--plank);
-    border-bottom: 2.5px solid var(--plank);
-    border-left: 2.5px solid transparent;
-    border-right: 2.5px solid transparent;
-    transform: rotate(-35deg);
-    box-sizing: border-box;
-  }
+
 
   .club-name {
     font-family: 'Playfair Display', serif;
@@ -492,7 +457,14 @@
 
   <header>
     <div class="club-crest">
-      <div class="crest-icon"></div>
+      <svg width="64" height="64" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:0.5rem; filter: drop-shadow(0 4px 8px rgba(42,92,122,0.25));">
+  <defs>
+    <clipPath id="bc"><circle cx="40" cy="40" r="37"/></clipPath>
+  </defs>
+  <circle cx="40" cy="40" r="37" fill="#2a5c7a" stroke="#1a3d52" stroke-width="2"/>
+  <path d="M38 4 C38 20, 60 38, 76 38" stroke="#e8f3f8" stroke-width="6" fill="none" stroke-linecap="round" clip-path="url(#bc)"/>
+  <path d="M42 76 C42 60, 20 42, 4 42" stroke="#e8f3f8" stroke-width="6" fill="none" stroke-linecap="round" clip-path="url(#bc)"/>
+</svg>
       <div class="club-name">Tennis Scoreboard</div>
     </div>
     <p class="subtitle">Doublekamper · Rotasjon</p>
